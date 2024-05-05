@@ -3,6 +3,7 @@ const websocket = require('ws');
 const msgpack = require('msgpack-lite');
 
 const writeStream = fs.createWriteStream('data.json');
+writeStream.write('[\n');
 
 function getBufferFromHex(hex) {
     // used for debugging messages sent from the web client
@@ -26,7 +27,7 @@ function getBufferFromHex(hex) {
                 //     ws.send(Buffer.concat([msgpack.encode([ 'po' ]), Buffer.from([Math.floor(Math.random() * 255), Math.floor(Math.random() * 255)])]));
                 //     break;
                 case 'fr':
-                    writeStream.write(JSON.stringify({ id: i, data }) + '\n\n');
+                    writeStream.write(JSON.stringify({ id: i, data }) + ',\n\n');
                     ws.close();
                     break;
                 case 'error':
@@ -36,4 +37,5 @@ function getBufferFromHex(hex) {
         })
         await new Promise((resolve) => setTimeout(resolve, 1100));
     }
+    writeStream.write(']');
 })();
