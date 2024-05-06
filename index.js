@@ -1,6 +1,7 @@
 const fs = require('fs');
 const websocket = require('ws');
 const msgpack = require('msgpack-lite');
+const config = require('./config.json')
 
 const writeStream = fs.createWriteStream('data.json');
 writeStream.write('[\n');
@@ -34,7 +35,7 @@ function getBufferFromHex(hex) {
                         if (Array.isArray(data[2])) {
                             const results = [...data[2]];
                             results.sort((a, b) => a.f - b.f);
-                            for (let j = 0; j < results.length - 1; j++) {
+                            for (let j = 0; j < results.length - 1 && j < config.maxFlips; j++) {
                                 if (results[j + 1].f > results[j].f * 1.1 + 1) {
                                     const ws2 = new websocket('wss://social.krunker.io/ws?', { origin: 'https://krunker.io' });
                                     ws2.on('open', () => {
@@ -57,7 +58,7 @@ function getBufferFromHex(hex) {
                                                 for (const sale of data[1]) if ((date.getTime() - new Date(sale.d).getTime()) / (1000 * 60 * 60 * 24) < 7) sum += sale.t;
                                                 let price = 0;
                                                 for (let k = j; k >= 0; k--) price += results[k].f;
-                                                console.log(flips[flips.push({ id: i, price, profit: (results[j + 1].f - 1 - (results[j].f * 1.1)) * (j + 1), count: j + 1, dailySales: sum / 7 }) - 1]);
+                                                if (price <= config.budget) console.log(flips[flips.push({ id: i, price, profit: (results[j + 1].f - 1 - (results[j].f * 1.1)) * (j + 1), count: j + 1, dailySales: sum / 7 }) - 1]);
                                                 break;
                                         }
                                     })
