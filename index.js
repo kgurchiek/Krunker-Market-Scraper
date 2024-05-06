@@ -50,15 +50,17 @@ function getBufferFromHex(hex) {
                                         switch (data[0]) {
                                             case 'gd':
                                                 ws2.close();
-                                                let sum = 0;
-                                                let date = new Date();
-                                                date.setHours(0);
-                                                date.setMinutes(0);
-                                                date.setSeconds(0);
-                                                for (const sale of data[1]) if ((date.getTime() - new Date(sale.d).getTime()) / (1000 * 60 * 60 * 24) < 7) sum += sale.t;
-                                                let price = 0;
-                                                for (let k = j; k >= 0; k--) price += results[k].f;
-                                                if (price <= config.budget) console.log(flips[flips.push({ id: i, price, profit: (results[j + 1].f - 1 - (results[j].f * 1.1)) * (j + 1), count: j + 1, dailySales: sum / 7 }) - 1]);
+                                                if (Array.isArray(data[1]) {
+                                                    let sum = 0;
+                                                    let date = new Date();
+                                                    date.setHours(0);
+                                                    date.setMinutes(0);
+                                                    date.setSeconds(0);
+                                                    for (const sale of data[1]) if ((date.getTime() - new Date(sale.d).getTime()) / (1000 * 60 * 60 * 24) < 7) sum += sale.t;
+                                                    let price = 0;
+                                                    for (let k = j; k >= 0; k--) price += results[k].f;
+                                                    if (price <= config.budget) console.log(flips[flips.push({ id: i, price, profit: (results[j + 1].f - 1 - (results[j].f * 1.1)) * (j + 1), count: j + 1, dailySales: sum / 7 }) - 1]);
+                                                }
                                                 break;
                                         }
                                     })
