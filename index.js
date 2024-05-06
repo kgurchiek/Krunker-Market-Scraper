@@ -50,7 +50,7 @@ function getBufferFromHex(hex) {
                                         switch (data[0]) {
                                             case 'gd':
                                                 ws2.close();
-                                                if (Array.isArray(data[1]) {
+                                                if (Array.isArray(data[1])) {
                                                     let sum = 0;
                                                     let date = new Date();
                                                     date.setHours(0);
